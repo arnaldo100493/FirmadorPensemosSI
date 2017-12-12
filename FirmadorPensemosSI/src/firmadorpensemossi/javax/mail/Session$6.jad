@@ -1,0 +1,54 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:46 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   Session.java
+
+package javax.mail;
+
+import java.io.IOException;
+import java.net.URL;
+import java.security.PrivilegedAction;
+import java.util.Enumeration;
+import java.util.Vector;
+
+// Referenced classes of package javax.mail:
+//            Session
+
+static class Session$6
+    implements PrivilegedAction
+{
+
+    public Object run()
+    {
+        URL ret[] = null;
+        try
+        {
+            Vector v = new Vector();
+            Enumeration e = ClassLoader.getSystemResources(val$name);
+            do
+            {
+                if(e == null || !e.hasMoreElements())
+                    break;
+                URL url = (URL)e.nextElement();
+                if(url != null)
+                    v.addElement(url);
+            } while(true);
+            if(v.size() > 0)
+            {
+                ret = new URL[v.size()];
+                v.copyInto(ret);
+            }
+        }
+        catch(IOException ioex) { }
+        catch(SecurityException ex) { }
+        return ret;
+    }
+
+    final String val$name;
+
+    Session$6(String s)
+    {
+        val$name = s;
+        super();
+    }
+}

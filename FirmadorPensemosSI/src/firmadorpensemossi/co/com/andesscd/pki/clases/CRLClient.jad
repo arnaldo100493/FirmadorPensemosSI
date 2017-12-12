@@ -1,0 +1,156 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:38 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   CRLClient.java
+
+package co.com.andesscd.pki.clases;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.cert.*;
+import java.util.*;
+import javax.naming.NamingException;
+import javax.naming.directory.*;
+import org.bouncycastle.asn1.*;
+import org.bouncycastle.asn1.x509.*;
+
+// Referenced classes of package co.com.andesscd.pki.clases:
+//            CertificateVerificationException, ResultadoVerificacion
+
+public class CRLClient
+{
+
+    public CRLClient()
+    {
+    }
+
+    public ResultadoVerificacion consultarCRL(X509Certificate cert)
+    {
+        List crlDistPoints;
+        Iterator i$;
+        try
+        {
+            crlDistPoints = getCrlDistributionPoints(cert);
+            if(crlDistPoints.isEmpty())
+                return ResultadoVerificacion.ESTADO_DE_REVOCACION_DESCONOCIDO;
+        }
+        catch(Exception ex)
+        {
+            return ResultadoVerificacion.ESTADO_DE_REVOCACION_DESCONOCIDO;
+        }
+        for(i$ = crlDistPoints.iterator(); i$.hasNext();)
+        {
+            String crlDP = (String)i$.next();
+            X509CRL crl = downloadCRL(crlDP);
+            if(crl.isRevoked(cert))
+                return ResultadoVerificacion.CERTIFICADO_REVOCADO;
+        }
+
+        return ResultadoVerificacion.VALIDO;
+    }
+
+    public ResultadoVerificacion consultarCRL(KeyStore keyStore, String alias)
+        throws KeyStoreException
+    {
+        return consultarCRL((X509Certificate)keyStore.getCertificate(alias));
+    }
+
+    private static X509CRL downloadCRL(String crlURL)
+        throws IOException, CertificateException, CRLException, CertificateVerificationException, NamingException
+    {
+        if(crlURL.startsWith("http://") || crlURL.startsWith("https://") || crlURL.startsWith("ftp://"))
+        {
+            X509CRL crl = downloadCRLFromWeb(crlURL);
+            return crl;
+        }
+        if(crlURL.startsWith("ldap://"))
+        {
+            X509CRL crl = downloadCRLFromLDAP(crlURL);
+            return crl;
+        } else
+        {
+            throw new CertificateVerificationException((new StringBuilder()).append("Can not download CRL from certificate distribution point: ").append(crlURL).toString());
+        }
+    }
+
+    private static X509CRL downloadCRLFromLDAP(String ldapURL)
+        throws CertificateException, NamingException, CRLException, CertificateVerificationException
+    {
+        Hashtable env = new Hashtable();
+        env.put("java.naming.factory.initial", "com.sun.jndi.ldap.LdapCtxFactory");
+        env.put("java.naming.provider.url", ldapURL);
+        DirContext ctx = new InitialDirContext(env);
+        Attributes avals = ctx.getAttributes("");
+        Attribute aval = avals.get("certificateRevocationList;binary");
+        byte val[] = (byte[])(byte[])aval.get();
+        if(val == null || val.length == 0)
+        {
+            throw new CertificateVerificationException((new StringBuilder()).append("Can not download CRL from: ").append(ldapURL).toString());
+        } else
+        {
+            InputStream inStream = new ByteArrayInputStream(val);
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            X509CRL crl = (X509CRL)cf.generateCRL(inStream);
+            return crl;
+        }
+    }
+
+    private static X509CRL downloadCRLFromWeb(String crlURL)
+        throws MalformedURLException, IOException, CertificateException, CRLException
+    {
+        InputStream crlStream;
+        URL url = new URL(crlURL);
+        crlStream = url.openStream();
+        X509CRL x509crl;
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        X509CRL crl = (X509CRL)cf.generateCRL(crlStream);
+        x509crl = crl;
+        crlStream.close();
+        return x509crl;
+        Exception exception;
+        exception;
+        crlStream.close();
+        throw exception;
+    }
+
+    private static List getCrlDistributionPoints(X509Certificate cert)
+        throws CertificateParsingException, IOException
+    {
+        byte crldpExt[] = cert.getExtensionValue(X509Extensions.CRLDistributionPoints.getId());
+        if(crldpExt == null)
+        {
+            List emptyList = new ArrayList();
+            return emptyList;
+        }
+        ASN1InputStream oAsnInStream = new ASN1InputStream(new ByteArrayInputStream(crldpExt));
+        DERObject derObjCrlDP = oAsnInStream.readObject();
+        DEROctetString dosCrlDP = (DEROctetString)derObjCrlDP;
+        byte crldpExtOctets[] = dosCrlDP.getOctets();
+        ASN1InputStream oAsnInStream2 = new ASN1InputStream(new ByteArrayInputStream(crldpExtOctets));
+        DERObject derObj2 = oAsnInStream2.readObject();
+        CRLDistPoint distPoint = CRLDistPoint.getInstance(derObj2);
+        List crlUrls = new ArrayList();
+        DistributionPoint arr$[] = distPoint.getDistributionPoints();
+        int len$ = arr$.length;
+        for(int i$ = 0; i$ < len$; i$++)
+        {
+            DistributionPoint dp = arr$[i$];
+            DistributionPointName dpn = dp.getDistributionPoint();
+            if(dpn == null || dpn.getType() != 0)
+                continue;
+            GeneralName genNames[] = GeneralNames.getInstance(dpn.getName()).getNames();
+            for(int j = 0; j < genNames.length; j++)
+                if(genNames[j].getTagNo() == 6)
+                {
+                    String url = DERIA5String.getInstance(genNames[j].getName()).getString();
+                    crlUrls.add(url);
+                }
+
+        }
+
+        return crlUrls;
+    }
+}

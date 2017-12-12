@@ -1,0 +1,30 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:44 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   Flags.java
+
+package javax.mail;
+
+
+// Referenced classes of package javax.mail:
+//            Flags
+
+public static final class Flags$Flag
+{
+
+    public static final Flags$Flag ANSWERED = new Flags$Flag(1);
+    public static final Flags$Flag DELETED = new Flags$Flag(2);
+    public static final Flags$Flag DRAFT = new Flags$Flag(4);
+    public static final Flags$Flag FLAGGED = new Flags$Flag(8);
+    public static final Flags$Flag RECENT = new Flags$Flag(16);
+    public static final Flags$Flag SEEN = new Flags$Flag(32);
+    public static final Flags$Flag USER = new Flags$Flag(0x80000000);
+    private int bit;
+
+
+
+    private Flags$Flag(int bit)
+    {
+        this.bit = bit;
+    }
+}

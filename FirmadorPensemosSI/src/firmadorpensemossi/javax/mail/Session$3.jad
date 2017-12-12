@@ -1,0 +1,31 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:46 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   Session.java
+
+package javax.mail;
+
+import java.security.PrivilegedAction;
+
+// Referenced classes of package javax.mail:
+//            Session
+
+static class Session$3
+    implements PrivilegedAction
+{
+
+    public Object run()
+    {
+        ClassLoader cl = null;
+        try
+        {
+            cl = Thread.currentThread().getContextClassLoader();
+        }
+        catch(SecurityException ex) { }
+        return cl;
+    }
+
+    Session$3()
+    {
+    }
+}

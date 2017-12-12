@@ -1,0 +1,39 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:46 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   StoreClosedException.java
+
+package javax.mail;
+
+
+// Referenced classes of package javax.mail:
+//            MessagingException, Store
+
+public class StoreClosedException extends MessagingException
+{
+
+    public StoreClosedException(Store store)
+    {
+        this(store, null);
+    }
+
+    public StoreClosedException(Store store, String message)
+    {
+        super(message);
+        this.store = store;
+    }
+
+    public StoreClosedException(Store store, String message, Exception e)
+    {
+        super(message, e);
+        this.store = store;
+    }
+
+    public Store getStore()
+    {
+        return store;
+    }
+
+    private transient Store store;
+    private static final long serialVersionUID = 0xd4595255d6538f21L;
+}

@@ -1,0 +1,55 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:45 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   Quota.java
+
+package javax.mail;
+
+
+public class Quota
+{
+    public static class Resource
+    {
+
+        public String name;
+        public long usage;
+        public long limit;
+
+        public Resource(String name, long usage, long limit)
+        {
+            this.name = name;
+            this.usage = usage;
+            this.limit = limit;
+        }
+    }
+
+
+    public Quota(String quotaRoot)
+    {
+        this.quotaRoot = quotaRoot;
+    }
+
+    public void setResourceLimit(String name, long limit)
+    {
+        if(resources == null)
+        {
+            resources = new Resource[1];
+            resources[0] = new Resource(name, 0L, limit);
+            return;
+        }
+        for(int i = 0; i < resources.length; i++)
+            if(resources[i].name.equalsIgnoreCase(name))
+            {
+                resources[i].limit = limit;
+                return;
+            }
+
+        Resource ra[] = new Resource[resources.length + 1];
+        System.arraycopy(resources, 0, ra, 0, resources.length);
+        ra[ra.length - 1] = new Resource(name, 0L, limit);
+        resources = ra;
+    }
+
+    public String quotaRoot;
+    public Resource resources[];
+}

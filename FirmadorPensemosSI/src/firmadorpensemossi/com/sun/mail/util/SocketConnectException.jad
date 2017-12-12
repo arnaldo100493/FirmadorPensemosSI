@@ -1,0 +1,51 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:43 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   SocketConnectException.java
+
+package com.sun.mail.util;
+
+import java.io.IOException;
+
+public class SocketConnectException extends IOException
+{
+
+    public SocketConnectException(String msg, Exception cause, String host, int port, int cto)
+    {
+        super(msg);
+        initCause(cause);
+        this.host = host;
+        this.port = port;
+        this.cto = cto;
+    }
+
+    public Exception getException()
+    {
+        if(!$assertionsDisabled && !(getCause() instanceof Exception))
+            throw new AssertionError();
+        else
+            return (Exception)getCause();
+    }
+
+    public String getHost()
+    {
+        return host;
+    }
+
+    public int getPort()
+    {
+        return port;
+    }
+
+    public int getConnectionTimeout()
+    {
+        return cto;
+    }
+
+    private String host;
+    private int port;
+    private int cto;
+    private static final long serialVersionUID = 0x377b4b00af8c9187L;
+    static final boolean $assertionsDisabled = !com/sun/mail/util/SocketConnectException.desiredAssertionStatus();
+
+}

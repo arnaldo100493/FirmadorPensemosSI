@@ -1,0 +1,39 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:44 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   FolderClosedException.java
+
+package javax.mail;
+
+
+// Referenced classes of package javax.mail:
+//            MessagingException, Folder
+
+public class FolderClosedException extends MessagingException
+{
+
+    public FolderClosedException(Folder folder)
+    {
+        this(folder, null);
+    }
+
+    public FolderClosedException(Folder folder, String message)
+    {
+        super(message);
+        this.folder = folder;
+    }
+
+    public FolderClosedException(Folder folder, String message, Exception e)
+    {
+        super(message, e);
+        this.folder = folder;
+    }
+
+    public Folder getFolder()
+    {
+        return folder;
+    }
+
+    private transient Folder folder;
+    private static final long serialVersionUID = 0x176c8d33ac752d2bL;
+}

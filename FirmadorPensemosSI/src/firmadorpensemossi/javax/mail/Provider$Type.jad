@@ -1,0 +1,29 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:45 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   Provider.java
+
+package javax.mail;
+
+
+// Referenced classes of package javax.mail:
+//            Provider
+
+public static class Provider$Type
+{
+
+    public String toString()
+    {
+        return type;
+    }
+
+    public static final Provider$Type STORE = new Provider$Type("STORE");
+    public static final Provider$Type TRANSPORT = new Provider$Type("TRANSPORT");
+    private String type;
+
+
+    private Provider$Type(String type)
+    {
+        this.type = type;
+    }
+}

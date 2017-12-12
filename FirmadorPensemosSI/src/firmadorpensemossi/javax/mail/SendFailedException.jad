@@ -1,0 +1,56 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:45 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   SendFailedException.java
+
+package javax.mail;
+
+
+// Referenced classes of package javax.mail:
+//            MessagingException, Address
+
+public class SendFailedException extends MessagingException
+{
+
+    public SendFailedException()
+    {
+    }
+
+    public SendFailedException(String s)
+    {
+        super(s);
+    }
+
+    public SendFailedException(String s, Exception e)
+    {
+        super(s, e);
+    }
+
+    public SendFailedException(String msg, Exception ex, Address validSent[], Address validUnsent[], Address invalid[])
+    {
+        super(msg, ex);
+        this.validSent = validSent;
+        this.validUnsent = validUnsent;
+        this.invalid = invalid;
+    }
+
+    public Address[] getValidSentAddresses()
+    {
+        return validSent;
+    }
+
+    public Address[] getValidUnsentAddresses()
+    {
+        return validUnsent;
+    }
+
+    public Address[] getInvalidAddresses()
+    {
+        return invalid;
+    }
+
+    protected transient Address invalid[];
+    protected transient Address validSent[];
+    protected transient Address validUnsent[];
+    private static final long serialVersionUID = 0xa6623d341bc51ecfL;
+}

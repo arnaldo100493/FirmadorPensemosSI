@@ -1,0 +1,96 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:37 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   CertificateVerifier.java
+
+package co.com.andesscd.pki.clases;
+
+import java.security.*;
+import java.security.cert.*;
+import java.util.*;
+
+// Referenced classes of package co.com.andesscd.pki.clases:
+//            CertificateVerificationException, CRLClient
+
+public class CertificateVerifier
+{
+
+    public CertificateVerifier()
+    {
+    }
+
+    public static PKIXCertPathBuilderResult verifyCertificate(X509Certificate cert, Set additionalCerts)
+        throws CertificateVerificationException
+    {
+        try
+        {
+            if(isSelfSigned(cert))
+                throw new CertificateVerificationException("The certificate is self-signed.");
+            Set trustedRootCerts = new HashSet();
+            Set intermediateCerts = new HashSet();
+            for(Iterator i$ = additionalCerts.iterator(); i$.hasNext();)
+            {
+                X509Certificate additionalCert = (X509Certificate)i$.next();
+                if(isSelfSigned(additionalCert))
+                    trustedRootCerts.add(additionalCert);
+                else
+                    intermediateCerts.add(additionalCert);
+            }
+
+            PKIXCertPathBuilderResult verifiedCertChain = verifyCertificate(cert, trustedRootCerts, intermediateCerts);
+            CRLClient clienteCRL = new CRLClient();
+            clienteCRL.consultarCRL(cert);
+            return verifiedCertChain;
+        }
+        catch(CertPathBuilderException certPathEx)
+        {
+            throw new CertificateVerificationException((new StringBuilder()).append("Error building certification path: ").append(cert.getSubjectX500Principal()).toString(), certPathEx);
+        }
+        catch(CertificateVerificationException cvex)
+        {
+            throw cvex;
+        }
+        catch(Exception ex)
+        {
+            throw new CertificateVerificationException((new StringBuilder()).append("Error verifying the certificate: ").append(cert.getSubjectX500Principal()).toString(), ex);
+        }
+    }
+
+    public static boolean isSelfSigned(X509Certificate cert)
+        throws CertificateException, NoSuchAlgorithmException, NoSuchProviderException
+    {
+        try
+        {
+            java.security.PublicKey key = cert.getPublicKey();
+            cert.verify(key);
+            return true;
+        }
+        catch(SignatureException sigEx)
+        {
+            return false;
+        }
+        catch(InvalidKeyException keyEx)
+        {
+            return false;
+        }
+    }
+
+    private static PKIXCertPathBuilderResult verifyCertificate(X509Certificate cert, Set trustedRootCerts, Set intermediateCerts)
+        throws GeneralSecurityException
+    {
+        X509CertSelector selector = new X509CertSelector();
+        selector.setCertificate(cert);
+        Set trustAnchors = new HashSet();
+        X509Certificate trustedRootCert;
+        for(Iterator i$ = trustedRootCerts.iterator(); i$.hasNext(); trustAnchors.add(new TrustAnchor(trustedRootCert, null)))
+            trustedRootCert = (X509Certificate)i$.next();
+
+        PKIXBuilderParameters pkixParams = new PKIXBuilderParameters(trustAnchors, selector);
+        pkixParams.setRevocationEnabled(false);
+        CertStore intermediateCertStore = CertStore.getInstance("Collection", new CollectionCertStoreParameters(intermediateCerts), "BC");
+        pkixParams.addCertStore(intermediateCertStore);
+        CertPathBuilder builder = CertPathBuilder.getInstance("PKIX", "BC");
+        PKIXCertPathBuilderResult result = (PKIXCertPathBuilderResult)builder.build(pkixParams);
+        return result;
+    }
+}

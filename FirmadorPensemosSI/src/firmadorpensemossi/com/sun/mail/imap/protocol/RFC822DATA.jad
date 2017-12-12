@@ -1,0 +1,46 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:41 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   RFC822DATA.java
+
+package com.sun.mail.imap.protocol;
+
+import com.sun.mail.iap.ByteArray;
+import com.sun.mail.iap.ParsingException;
+import java.io.ByteArrayInputStream;
+
+// Referenced classes of package com.sun.mail.imap.protocol:
+//            Item, FetchResponse
+
+public class RFC822DATA
+    implements Item
+{
+
+    public RFC822DATA(FetchResponse r)
+        throws ParsingException
+    {
+        msgno = r.getNumber();
+        r.skipSpaces();
+        data = r.readByteArray();
+    }
+
+    public ByteArray getByteArray()
+    {
+        return data;
+    }
+
+    public ByteArrayInputStream getByteArrayInputStream()
+    {
+        if(data != null)
+            return data.toByteArrayInputStream();
+        else
+            return null;
+    }
+
+    static final char name[] = {
+        'R', 'F', 'C', '8', '2', '2'
+    };
+    public int msgno;
+    public ByteArray data;
+
+}

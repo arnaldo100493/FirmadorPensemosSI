@@ -1,0 +1,33 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:39 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   DefaultFolder.java
+
+package com.sun.mail.imap;
+
+import com.sun.mail.iap.ProtocolException;
+import com.sun.mail.imap.protocol.IMAPProtocol;
+
+// Referenced classes of package com.sun.mail.imap:
+//            DefaultFolder, IMAPFolder
+
+class DefaultFolder$2
+    implements colCommand
+{
+
+    public Object doCommand(IMAPProtocol p)
+        throws ProtocolException
+    {
+        return p.lsub("", val$pattern);
+    }
+
+    final String val$pattern;
+    final DefaultFolder this$0;
+
+    DefaultFolder$2()
+    {
+        this$0 = final_defaultfolder;
+        val$pattern = String.this;
+        super();
+    }
+}

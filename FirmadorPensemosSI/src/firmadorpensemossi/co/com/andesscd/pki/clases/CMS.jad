@@ -1,0 +1,542 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 12/12/2017 12:21:38 p. m.
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   CMS.java
+
+package co.com.andesscd.pki.clases;
+
+import co.com.andesscd.Auxiliar;
+import co.com.andesscd.Base64Coder;
+import co.com.andesscd.pki.excepciones.SntpException;
+import co.com.andesscd.pki.excepciones.TsaException;
+import java.io.*;
+import java.math.BigInteger;
+import java.net.*;
+import java.security.*;
+import java.security.cert.*;
+import java.util.*;
+import org.bouncycastle.asn1.*;
+import org.bouncycastle.asn1.cmp.PKIFailureInfo;
+import org.bouncycastle.asn1.cms.*;
+import org.bouncycastle.asn1.x509.X509ObjectIdentifiers;
+import org.bouncycastle.cert.jcajce.JcaCertStore;
+import org.bouncycastle.cms.*;
+import org.bouncycastle.cms.jcajce.JcaSignerInfoGeneratorBuilder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
+import org.bouncycastle.tsp.*;
+import org.bouncycastle.util.Store;
+
+// Referenced classes of package co.com.andesscd.pki.clases:
+//            SntpClient, TimeStamped
+
+public class CMS
+{
+    public static final class FuenteHoraria extends Enum
+    {
+
+        public static FuenteHoraria[] values()
+        {
+            return (FuenteHoraria[])$VALUES.clone();
+        }
+
+        public static FuenteHoraria valueOf(String name)
+        {
+            return (FuenteHoraria)Enum.valueOf(co/com/andesscd/pki/clases/CMS$FuenteHoraria, name);
+        }
+
+        public static final FuenteHoraria LOCAL;
+        public static final FuenteHoraria SNTP;
+        public static final FuenteHoraria TSA;
+        private static final FuenteHoraria $VALUES[];
+
+        static 
+        {
+            LOCAL = new FuenteHoraria("LOCAL", 0);
+            SNTP = new FuenteHoraria("SNTP", 1);
+            TSA = new FuenteHoraria("TSA", 2);
+            $VALUES = (new FuenteHoraria[] {
+                LOCAL, SNTP, TSA
+            });
+        }
+
+        private FuenteHoraria(String s, int i)
+        {
+            super(s, i);
+        }
+    }
+
+
+    public static FuenteHoraria getFuenteHoraria()
+    {
+        return fuenteHoraria;
+    }
+
+    public static void setFuenteHorariaLocal()
+    {
+        urlFuenteHoraria = "";
+        loginFuenteHoraria = "";
+        passwordFuenteHoraria = "";
+        fuenteHoraria = FuenteHoraria.LOCAL;
+    }
+
+    public static void setFuenteHorariaSNTP(String urlFuenteHoraria)
+    {
+        urlFuenteHoraria = urlFuenteHoraria;
+        loginFuenteHoraria = "";
+        passwordFuenteHoraria = "";
+        fuenteHoraria = FuenteHoraria.SNTP;
+    }
+
+    public static void setFuenteHorariaTSA(String urlFuenteHoraria, String loginFuenteHoraria, String passwordFuenteHoraria)
+    {
+        urlFuenteHoraria = urlFuenteHoraria;
+        loginFuenteHoraria = loginFuenteHoraria;
+        passwordFuenteHoraria = passwordFuenteHoraria;
+        fuenteHoraria = FuenteHoraria.TSA;
+    }
+
+    public CMS(String archivoEntrada)
+        throws FileNotFoundException, Exception
+    {
+        File archivo = new File(archivoEntrada);
+        nombreDocumento = archivo.getName();
+        descripcion = "";
+        iniciarCMS(new FileInputStream(archivoEntrada));
+    }
+
+    public CMS(InputStream streamEntrada)
+        throws Exception
+    {
+        nombreDocumento = "";
+        descripcion = "";
+        iniciarCMS(streamEntrada);
+    }
+
+    public CMS(URL url)
+        throws IOException, Exception
+    {
+        HttpURLConnection conexion = (HttpURLConnection)url.openConnection();
+        nombreDocumento = "";
+        descripcion = "";
+        iniciarCMS(conexion.getInputStream());
+    }
+
+    public static GregorianCalendar getFechaActual()
+        throws SntpException
+    {
+        Random r = new Random();
+        GregorianCalendar fechaActual = null;
+        static class _cls1
+        {
+
+            static final int $SwitchMap$co$com$andesscd$pki$clases$CMS$FuenteHoraria[];
+
+            static 
+            {
+                $SwitchMap$co$com$andesscd$pki$clases$CMS$FuenteHoraria = new int[FuenteHoraria.values().length];
+                try
+                {
+                    $SwitchMap$co$com$andesscd$pki$clases$CMS$FuenteHoraria[FuenteHoraria.LOCAL.ordinal()] = 1;
+                }
+                catch(NoSuchFieldError ex) { }
+                try
+                {
+                    $SwitchMap$co$com$andesscd$pki$clases$CMS$FuenteHoraria[FuenteHoraria.SNTP.ordinal()] = 2;
+                }
+                catch(NoSuchFieldError ex) { }
+                try
+                {
+                    $SwitchMap$co$com$andesscd$pki$clases$CMS$FuenteHoraria[FuenteHoraria.TSA.ordinal()] = 3;
+                }
+                catch(NoSuchFieldError ex) { }
+            }
+        }
+
+        switch(_cls1..SwitchMap.co.com.andesscd.pki.clases.CMS.FuenteHoraria[fuenteHoraria.ordinal()])
+        {
+        default:
+            break;
+
+        case 1: // '\001'
+            fechaActual = new GregorianCalendar(new SimpleTimeZone(0, "America/Bogota"));
+            fechaActual.setTime(new Date());
+            break;
+
+        case 2: // '\002'
+            try
+            {
+                SntpClient sntpClient = new SntpClient();
+                sntpClient.requestTime(urlFuenteHoraria, 10000);
+                fechaActual = sntpClient.getFecha();
+            }
+            catch(SocketException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante SNTP. Error de comunicacion en el Socket: ").append(ex.getMessage()).toString());
+            }
+            catch(UnknownHostException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante SNTP. Error al intentar conectar con el host: ").append(ex.getMessage()).toString());
+            }
+            catch(IOException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante SNTP. Error generico de lectura de datos: ").append(ex.getMessage()).toString());
+            }
+            break;
+
+        case 3: // '\003'
+            byte datosAleatorios[] = new byte[8];
+            r.nextBytes(datosAleatorios);
+            CMS tempCMS;
+            try
+            {
+                tempCMS = new CMS(new ByteArrayInputStream(datosAleatorios));
+            }
+            catch(Exception ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante TSA. Error generico de procesamiento: ").append(ex.getMessage()).toString());
+            }
+            ByteArrayOutputStream tokenStream = new ByteArrayOutputStream();
+            try
+            {
+                tempCMS.getTimestampToken(urlFuenteHoraria, loginFuenteHoraria, passwordFuenteHoraria, tokenStream);
+            }
+            catch(IOException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante TSA. Error generico de lectura de datos: ").append(ex.getMessage()).toString());
+            }
+            catch(NoSuchAlgorithmException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante TSA. No se dispone del algoritmo de procesamiento: ").append(ex.getMessage()).toString());
+            }
+            catch(TSPException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante TSA: ").append(ex.getMessage()).toString());
+            }
+            catch(Exception ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al intentar obtener la fecha y hora mediante TSA. Error generico de procesamiento: ").append(ex.getMessage()).toString());
+            }
+            try
+            {
+                TimeStamped timeStamped = new TimeStamped(tokenStream.toByteArray());
+                fechaActual = timeStamped.getFechaEstampado();
+            }
+            catch(CMSException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al procesar la fecha y hora mediante TSA. Error verificando la respuesta: ").append(ex.getMessage()).toString());
+            }
+            catch(TSPException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al procesar la fecha y hora mediante TSA: ").append(ex.getMessage()).toString());
+            }
+            catch(IOException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al procesar la fecha y hora mediante TSA. Error generico de lectura de datos: ").append(ex.getMessage()).toString());
+            }
+            catch(CertificateException ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al procesar la fecha y hora mediante TSA. Error al procesaro el certificado: ").append(ex.getMessage()).toString());
+            }
+            catch(Exception ex)
+            {
+                throw new SntpException((new StringBuilder()).append("Error al procesar la fecha y hora mediante TSA. Error generico de procesamiento: ").append(ex.getMessage()).toString());
+            }
+            break;
+        }
+        return fechaActual;
+    }
+
+    public static void setFull(String password)
+        throws IOException, NoSuchAlgorithmException, TSPException, Exception
+    {
+        full = true;
+    }
+
+    public void setNombreDocumento(String nombreDocumento)
+    {
+        this.nombreDocumento = nombreDocumento;
+    }
+
+    public void setDescripcion(String descripcion)
+    {
+        this.descripcion = descripcion;
+    }
+
+    public SignerInformationStore getFirmantes()
+    {
+        return firmantes;
+    }
+
+    public CertStore getCertificados()
+    {
+        return certificados;
+    }
+
+    private void iniciarCMS(InputStream streamEntrada)
+        throws Exception
+    {
+        if(!full)
+            throw new Exception("Operacion criptografica no permitida, debe desbloquear el uso del componente");
+        if(!bcAgregado)
+            Security.addProvider(new BouncyCastleProvider());
+        if(streamEntrada == null)
+        {
+            throw new Exception("No se proporcionaron datos de entrada");
+        } else
+        {
+            contenido = Auxiliar.inputStream2ByteArray(streamEntrada);
+            hashParaTimeStamp = new Hashtable();
+            return;
+        }
+    }
+
+    private static byte[] GetTSAResponse(String url, String usuario, String contraseF1a, byte requestBytes[])
+        throws MalformedURLException, IOException, TSPException, Exception
+    {
+        if(!full)
+            throw new Exception("Operacion criptografica no permitida, debe desbloquear el uso del componente");
+        URL uri = new URL(url);
+        HttpURLConnection peticionHttp = (HttpURLConnection)uri.openConnection();
+        peticionHttp.setDoOutput(true);
+        peticionHttp.setDoInput(true);
+        peticionHttp.setRequestMethod("POST");
+        peticionHttp.setRequestProperty("Content-type", "application/timestamp-query");
+        peticionHttp.setRequestProperty("Content-length", String.valueOf(requestBytes.length));
+        if(usuario != null && !usuario.isEmpty())
+        {
+            String userpassword = (new StringBuilder()).append(usuario).append(":").append(contraseF1a).toString();
+            String encodedAuthorization = new String(Base64Coder.encode(userpassword.getBytes()));
+            peticionHttp.setRequestProperty("Authorization", (new StringBuilder()).append("Basic ").append(encodedAuthorization).toString());
+        }
+        OutputStream requestStream = peticionHttp.getOutputStream();
+        requestStream.write(requestBytes);
+        requestStream.flush();
+        if(peticionHttp.getResponseCode() != 200)
+            throw new IOException((new StringBuilder()).append("Received HTTP error: ").append(peticionHttp.getResponseCode()).append(" - ").append(peticionHttp.getResponseMessage()).toString());
+        else
+            return Auxiliar.inputStream2ByteArray(peticionHttp.getInputStream());
+    }
+
+    public static byte[] getTimestampToken(byte hash[], String tsaURL, String tsaUserName, String tsaPassword)
+        throws IOException, TSPException, Exception
+    {
+        if(!full)
+            throw new Exception("Operacion criptografica no permitida, debe desbloquear el uso del componente");
+        TimeStampRequestGenerator generadorDePeticion = new TimeStampRequestGenerator();
+        generadorDePeticion.setCertReq(true);
+        generadorDePeticion.setReqPolicy(reqPolicy);
+        BigInteger nonce = BigInteger.valueOf(Calendar.getInstance().getTimeInMillis());
+        TimeStampRequest peticionTsa = generadorDePeticion.generate(X509ObjectIdentifiers.id_SHA1.getId(), hash, nonce);
+        byte bytesPeticion[] = peticionTsa.getEncoded();
+        byte bytesRespuesta[] = GetTSAResponse(tsaURL, tsaUserName, tsaPassword, bytesPeticion);
+        TimeStampResponse respuestaTsa = new TimeStampResponse(bytesRespuesta);
+        respuestaTsa.validate(peticionTsa);
+        PKIFailureInfo fallaTsa = respuestaTsa.getFailInfo();
+        if(fallaTsa != null)
+            throw new Exception("No se puede conectar a la URL");
+        TimeStampToken tokenTsa = respuestaTsa.getTimeStampToken();
+        if(tokenTsa == null)
+            throw new Exception("No se obtuvo respuesta esperada");
+        else
+            return tokenTsa.getEncoded();
+    }
+
+    public void getTimestampToken(String url, String usuario, String contraseF1a, String archivoSalida)
+        throws FileNotFoundException, IOException, NoSuchAlgorithmException, TSPException, Exception
+    {
+        getTimestampToken(url, usuario, contraseF1a, ((OutputStream) (new FileOutputStream(archivoSalida))));
+    }
+
+    public void getTimestampToken(String url, String usuario, String contraseF1a, OutputStream streamSalida)
+        throws IOException, NoSuchAlgorithmException, TSPException, Exception
+    {
+        byte buffer[] = new byte[0x100000];
+        MessageDigest sha1 = MessageDigest.getInstance("SHA");
+        ByteArrayInputStream in = new ByteArrayInputStream(contenido);
+        int leidos;
+        do
+        {
+            leidos = in.read(buffer);
+            if(leidos > 0)
+                sha1.update(buffer, 0, leidos);
+        } while(leidos > 0);
+        byte hash[] = sha1.digest();
+        byte tokenBytes[] = getTimestampToken(hash, url, usuario, contraseF1a);
+        streamSalida.write(tokenBytes, 0, tokenBytes.length);
+        if(streamSalida != null)
+            streamSalida.close();
+        break MISSING_BLOCK_LABEL_111;
+        Exception exception;
+        exception;
+        if(streamSalida != null)
+            streamSalida.close();
+        throw exception;
+    }
+
+    public void firmar(X509Certificate certificado, PrivateKey llavePrivada, Provider provedor, OutputStream streamSalida)
+        throws NoSuchAlgorithmException, IOException, CMSException, CertStoreException, InvalidAlgorithmParameterException, CertificateEncodingException, OperatorCreationException, TSPException, SntpException, CertificateException, Exception
+    {
+        ArrayList listaDeCertificados = new ArrayList();
+        CMSSignedDataGenerator generadorDeFirma = new CMSSignedDataGenerator();
+        listaDeCertificados.add(certificado);
+        Store almacenDeCertificados = new JcaCertStore(listaDeCertificados);
+        generadorDeFirma.addCertificates(almacenDeCertificados);
+        JcaSignerInfoGeneratorBuilder jcaSignerInfoGeneratorBuilder = new JcaSignerInfoGeneratorBuilder((new JcaDigestCalculatorProviderBuilder()).setProvider("BC").build());
+        ASN1EncodableVector signedAttributes = new ASN1EncodableVector();
+        Date fechaActual = null;
+        if(fuenteHoraria == FuenteHoraria.LOCAL || fuenteHoraria == FuenteHoraria.SNTP)
+        {
+            fechaActual = getFechaActual().getTime();
+        } else
+        {
+            MessageDigest sha = MessageDigest.getInstance("SHA1");
+            byte timeStampToken[] = getTimestampToken(sha.digest(contenido), urlFuenteHoraria, loginFuenteHoraria, passwordFuenteHoraria);
+            fechaActual = (new TimeStamped(timeStampToken)).getFechaEstampado().getTime();
+            ASN1EncodableVector unSignedAttributes = new ASN1EncodableVector();
+            unSignedAttributes.add(new Attribute(new DERObjectIdentifier("1.2.840.113549.1.9.16.2.14"), new DERSet((new ASN1InputStream(timeStampToken)).readObject())));
+            AttributeTable unSignedAttributesTable = new AttributeTable(unSignedAttributes);
+            SimpleAttributeTableGenerator unSignedAttributeGenerator = new SimpleAttributeTableGenerator(unSignedAttributesTable);
+            jcaSignerInfoGeneratorBuilder.setUnsignedAttributeGenerator(unSignedAttributeGenerator);
+        }
+        signedAttributes.add(new Attribute(CMSAttributes.signingTime, new DERSet(new DERUTCTime(fechaActual))));
+        AttributeTable signedAttributesTable = new AttributeTable(signedAttributes);
+        DefaultSignedAttributeTableGenerator signedAttributeGenerator = new DefaultSignedAttributeTableGenerator(signedAttributesTable);
+        jcaSignerInfoGeneratorBuilder.setSignedAttributeGenerator(signedAttributeGenerator);
+        ContentSigner firmante = (new JcaContentSignerBuilder("SHA1withRSA")).setProvider(provedor).build(llavePrivada);
+        SignerInfoGenerator signerInfoGenerator = jcaSignerInfoGeneratorBuilder.build(firmante, certificado);
+        generadorDeFirma.addSignerInfoGenerator(signerInfoGenerator);
+        ArrayList firmantes = new ArrayList();
+        CMSTypedData contenidoFirmable = new CMSProcessableByteArray(contenido);
+        CMSSignedData datosFirmados = generadorDeFirma.generate(contenidoFirmable, true);
+        Collection firmantesLocal = datosFirmados.getSignerInfos().getSigners();
+        SignerInformation si;
+        for(Iterator i$ = firmantesLocal.iterator(); i$.hasNext(); firmantes.add(si))
+            si = (SignerInformation)i$.next();
+
+        SignerInformationStore newSignerInformationStore = new SignerInformationStore(firmantes);
+        CMSSignedData newSd = CMSSignedData.replaceSigners(datosFirmados, newSignerInformationStore);
+        streamSalida.write(newSd.getEncoded());
+        if(streamSalida != null)
+            streamSalida.close();
+        break MISSING_BLOCK_LABEL_473;
+        Exception exception;
+        exception;
+        if(streamSalida != null)
+            streamSalida.close();
+        throw exception;
+    }
+
+    public void firmar(KeyStore keyStore, String alias, String contraseF1a, Provider provedor, OutputStream streamSalida)
+        throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, Exception
+    {
+        if(!keyStore.containsAlias(alias))
+            throw new Exception((new StringBuilder()).append("El almacen no contiene el alias: ").append(alias).toString());
+        if(!keyStore.isKeyEntry(alias))
+            throw new Exception((new StringBuilder()).append("El almacen no contiene una llave con alias: ").append(alias).toString());
+        X509Certificate certificado = (X509Certificate)keyStore.getCertificate(alias);
+        if(certificado == null)
+            throw new Exception((new StringBuilder()).append("El almacen no contiene un certificado con alias: ").append(alias).toString());
+        PrivateKey llavePrivada = (PrivateKey)keyStore.getKey(alias, contraseF1a == null ? null : contraseF1a.toCharArray());
+        if(llavePrivada == null)
+        {
+            throw new Exception((new StringBuilder()).append("No se pudo recuperar la llave con alias: ").append(alias).toString());
+        } else
+        {
+            firmar(certificado, llavePrivada, provedor, streamSalida);
+            return;
+        }
+    }
+
+    public void firmar(KeyStore keyStore, String alias, String contraseF1a, OutputStream streamSalida)
+        throws NoSuchAlgorithmException, IOException, CMSException, CertStoreException, InvalidAlgorithmParameterException, CertificateEncodingException, OperatorCreationException, KeyStoreException, Exception, TsaException, SntpException
+    {
+        firmar(keyStore, alias, contraseF1a, keyStore.getProvider(), streamSalida);
+    }
+
+    public void firmar(KeyStore keyStore, String contraseF1a, OutputStream streamSalida)
+        throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, Exception, TsaException, SntpException
+    {
+        String alias = null;
+        Enumeration aliases = keyStore.aliases();
+        do
+        {
+            if(!aliases.hasMoreElements())
+                break;
+            alias = (String)aliases.nextElement();
+        } while(!keyStore.isKeyEntry(alias));
+        if(alias == null || alias.isEmpty())
+        {
+            throw new Exception("No se enocntro una llave util para firma dentro del contenedor");
+        } else
+        {
+            firmar(keyStore, alias, contraseF1a, streamSalida);
+            return;
+        }
+    }
+
+    public static String firmar(String datos, String alias, String password)
+        throws KeyStoreException, NoSuchProviderException, NoSuchAlgorithmException, CertificateException, IOException, Exception, TsaException, SntpException
+    {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        KeyStore keystore = KeyStore.getInstance("Windows-MY", "SunMSCAPI");
+        keystore.load(null, null);
+        if(!keystore.containsAlias(alias))
+        {
+            throw new Exception((new StringBuilder()).append("El almacen de windows no contiene el alias ").append(alias).toString());
+        } else
+        {
+            java.security.cert.Certificate certificado = keystore.getCertificate(alias);
+            java.security.Key privateKey = keystore.getKey(alias, password.toCharArray());
+            CMS cms = new CMS(new ByteArrayInputStream(datos.getBytes("UTF-8")));
+            cms.firmar((X509Certificate)certificado, (PrivateKey)privateKey, keystore.getProvider(), ((OutputStream) (out)));
+            return new String(Base64Coder.encode(out.toByteArray()));
+        }
+    }
+
+    public static HashMap listarWindowsStore()
+        throws NoSuchProviderException, KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException
+    {
+        HashMap certificados = new HashMap();
+        KeyStore keystore = KeyStore.getInstance("Windows-MY", "SunMSCAPI");
+        keystore.load(null, null);
+        Enumeration aliases = keystore.aliases();
+        do
+        {
+            if(!aliases.hasMoreElements())
+                break;
+            String alias = (String)aliases.nextElement();
+            if(keystore.isKeyEntry(alias))
+            {
+                X509Certificate cert = (X509Certificate)keystore.getCertificate(alias);
+                certificados.put(alias, cert);
+            }
+        } while(true);
+        return certificados;
+    }
+
+    private static String reqPolicy = "1.3.6.1.4.1.601.10.3.1";
+    private static boolean licenciaTotal = true;
+    private static FuenteHoraria fuenteHoraria;
+    private static String urlFuenteHoraria = "";
+    private static String loginFuenteHoraria = "";
+    private static String passwordFuenteHoraria = "";
+    private String nombreDocumento;
+    private String descripcion;
+    private static boolean full = true;
+    private byte contenido[];
+    private boolean decodificado;
+    private SignerInformationStore firmantes;
+    private CertStore certificados;
+    private CMSSignedData signedData;
+    private Hashtable hashParaTimeStamp;
+    private static boolean bcAgregado = false;
+
+    static 
+    {
+        fuenteHoraria = FuenteHoraria.LOCAL;
+    }
+}
