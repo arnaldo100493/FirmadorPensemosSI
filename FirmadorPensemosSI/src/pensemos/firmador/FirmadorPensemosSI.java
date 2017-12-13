@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsParameters;
 import com.sun.net.httpserver.HttpsServer;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -40,6 +41,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import sun.misc.BASE64Decoder;
 
 public class FirmadorPensemosSI {
@@ -51,14 +53,10 @@ public class FirmadorPensemosSI {
     public static String errorMsg = "";
     public static JTextArea textLog = null;
 
-    public static void main(String[] args) {
-        FirmadorPensemosSI pki = new FirmadorPensemosSI();
-        pki.createInterface();
-        System.out.println("Servidor iniciado");
-    }
-
     public FirmadorPensemosSI() {
         try {
+            String message = "Puerto habilitado: 8448";
+            textLog = new JTextArea(message, 5, 10);
             SSLContext sslContext = SSLContext.getInstance("TLS");
             loadCertificateKey();
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
@@ -93,6 +91,12 @@ public class FirmadorPensemosSI {
             Logger.getLogger(FirmadorPensemosSI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void main(String[] args) {
+        FirmadorPensemosSI pki = new FirmadorPensemosSI();
+        pki.createInterface();
+        System.out.println("Servidor iniciado");
+    }
 
     public void loadCertificateKey()
             throws NoSuchAlgorithmException {
@@ -124,14 +128,15 @@ public class FirmadorPensemosSI {
 
     public void createInterface() {
         try {
-            JFrame frame = new JFrame("Firmar Almacen Windows Andes SCD");
+             UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+            JFrame frame = new JFrame("Firmador Pensemos Soluciones de Industria");
             frame.setLocationRelativeTo(null);
             frame.setExtendedState(3);
             frame.setDefaultCloseOperation(3);
             frame.setSize(new Dimension(400, 300));
-            ImageIcon icon = new ImageIcon(getClass().getResource("/firmaralmacenwinpdf/images/LogoAndesFinal.png"));
-            String message = "<html><body>Agente Iniciado Version: 1.0.0 <br/>Recibiendo solicitudes en el puerto 8448 </body></html>";
-            JLabel label = new JLabel(message, icon, 0);
+            ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/LogoAndesFinal.png"));
+            //String message = "<html><body>Agente Iniciado Version: 1.0.0 <br/>Recibiendo solicitudes en el puerto 8448 </body></html>";
+            JLabel label = new JLabel(icon, 0);
             label.setVerticalTextPosition(3);
             label.setHorizontalTextPosition(0);
             Container content = frame.getContentPane();
@@ -139,17 +144,18 @@ public class FirmadorPensemosSI {
             content.add(label, "North");
             textLog = new JTextArea(5, 10);
             JScrollPane scrollPane = new JScrollPane(textLog);
+            frame.add(scrollPane, BorderLayout.CENTER);
             textLog.setEditable(false);
             content.add(textLog, "Center");
-            JButton button = new JButton("Detener ");
-            button.setBounds(10, 10, 20, 30);
+            //JButton button = new JButton("Detener ");
+            //button.setBounds(10, 10, 20, 30);
             ActionListener listener = new ActionListener() {
                 public void actionPerformed(ActionEvent actionEvent) {
                     System.exit(0);
                 }
             };
-            button.addActionListener(listener);
-            content.add(button, "South");
+            //button.addActionListener(listener);
+            //content.add(button, "South");
             frame.show();
         } catch (Exception ex) {
             errorMsg = textLog.getText();
