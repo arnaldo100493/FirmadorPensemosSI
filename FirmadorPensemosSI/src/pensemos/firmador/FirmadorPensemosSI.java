@@ -134,7 +134,8 @@ public class FirmadorPensemosSI {
             frame.setExtendedState(3);
             frame.setDefaultCloseOperation(3);
             frame.setSize(new Dimension(400, 300));
-            ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/LogoAndesFinal.png"));
+            frame.setIconImage(new ImageIcon(getClass().getResource("/pensemos/images/Logo.png")).getImage());
+            ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/PensemosSI.png"));
             //String message = "<html><body>Agente Iniciado Version: 1.0.0 <br/>Recibiendo solicitudes en el puerto 8448 </body></html>";
             JLabel label = new JLabel(icon, 0);
             label.setVerticalTextPosition(3);
@@ -142,7 +143,7 @@ public class FirmadorPensemosSI {
             Container content = frame.getContentPane();
             content.setBackground(new Color(206, 227, 246));
             content.add(label, "North");
-            textLog = new JTextArea(5, 10);
+            //textLog = new JTextArea(5, 10);
             JScrollPane scrollPane = new JScrollPane(textLog);
             frame.add(scrollPane, BorderLayout.CENTER);
             textLog.setEditable(false);
