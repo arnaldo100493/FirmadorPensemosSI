@@ -1,0 +1,686 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<wsdl:definitions 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:s="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.andesscd.com.co/" 
+    xmlns:tns="http://www.andesscd.com.co/" 
+    name="WSandesscd" 
+>
+
+<wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.andesscd.com.co/">
+        <s:element name="CertificadosRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoCert" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="nombres" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="apellidos" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="municipio" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="direccion" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="email" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="telefono" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="celular" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="ocupacion" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="fechaCert" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="vigenciaCert" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="formato" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="testigo" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="foto" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="soporte" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="pin" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="pkcs10" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="verific_doc" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="plantillaHuella" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CertificadosResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CertificadosPersonaNaturalRUTRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoCert" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="nombres" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="apellidos" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="municipio" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="direccion" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="email" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="telefono" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="celular" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="ocupacion" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="fechaCert" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="vigenciaCert" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="formato" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="testigo" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="foto" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="soporte" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="pin" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="pkcs10" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="verific_doc" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="plantillaHuella" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CertificadosPersonaNaturalRUTResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CertificateVinculacionEmpresaRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoCert" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="nombres" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="apellidos" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="municipio" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="direccion" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="email" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="emailEnt" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="telefono" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="celular" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="ocupacion" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDocEnt" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documentoEnt" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="razonsocial" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="municipioEnt" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="direccionEnt" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="cargo" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="unidadOrganizacional" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="fechaCert" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="formato" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="vigenciaCert" type="s:int" />
+                <s:element minOccurs="0" maxOccurs="1" name="testigo" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="foto" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="pin" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="pkcs10" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="soporte" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="verific_doc" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="plantillaHuella" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CertificateVinculacionEmpresaResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="FirmarRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="pin" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="archivo" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="firmaVisible" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="firmarEstampa" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="loginTSA" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="passswordTSA" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="FirmarResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="VerificarFirmaRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="archivo" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="tipoArchivo" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="VerificarFirmaResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="ConsultarSolicitudRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="rasolicitud" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="ConsultarSolicitudResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="FirmarOTPRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="pin" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="otp" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="archivo" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="firmaVisible" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="firmarEstampa" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="loginTSA" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="passswordTSA" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="FirmarOTPResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="TiempoUsoOTPRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tiempootp" type="s:int" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="TiempoUsoOTPResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="InvalidarOTPRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="otp" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="InvalidarOTPResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="LoginRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="cadena" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="LoginResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="DepartamentoRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="cadena" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="DepartamentoResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="MunicipioRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="id_departamento" type="s:int" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="MunicipioResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="ConsultarCertRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="ConsultarCertResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="RevocacionRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="serialcertificado" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="idcausalrevocacion" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="observacion" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="RevocacionResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CambiarPinRequest">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="tipoDoc" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="documento" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="pinactual" type="s:string" />
+                <s:element minOccurs="1" maxOccurs="1" name="pinnuevo" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+        <s:element name="CambiarPinResponse">
+            <s:complexType><s:sequence>
+                <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+                <s:element minOccurs="1" maxOccurs="1" name="mensaje" type="s:string" />
+            </s:sequence></s:complexType>
+        </s:element>
+    </s:schema>
+</wsdl:types>
+
+<wsdl:message name="CertificadosRequest">
+    <wsdl:part name="parameters" element="tns:CertificadosRequest" />
+</wsdl:message>
+<wsdl:message name="CertificadosResponse">
+    <wsdl:part name="parameters" element="tns:CertificadosResponse" />
+</wsdl:message>
+
+<wsdl:message name="CertificadosPersonaNaturalRUTRequest">
+    <wsdl:part name="parameters" element="tns:CertificadosPersonaNaturalRUTRequest" />
+</wsdl:message>
+<wsdl:message name="CertificadosPersonaNaturalRUTResponse">
+    <wsdl:part name="parameters" element="tns:CertificadosPersonaNaturalRUTResponse" />
+</wsdl:message>
+
+<wsdl:message name="CertificateVinculacionEmpresaRequest">
+    <wsdl:part name="parameters" element="tns:CertificateVinculacionEmpresaRequest" />
+</wsdl:message>
+<wsdl:message name="CertificateVinculacionEmpresaResponse">
+    <wsdl:part name="parameters" element="tns:CertificateVinculacionEmpresaResponse" />
+</wsdl:message>
+
+<wsdl:message name="FirmarRequest">
+    <wsdl:part name="parameters" element="tns:FirmarRequest" />
+</wsdl:message>
+<wsdl:message name="FirmarResponse">
+    <wsdl:part name="parameters" element="tns:FirmarResponse" />
+</wsdl:message>
+
+<wsdl:message name="VerificarFirmaRequest">
+    <wsdl:part name="parameters" element="tns:VerificarFirmaRequest" />
+</wsdl:message>
+<wsdl:message name="VerificarFirmaResponse">
+    <wsdl:part name="parameters" element="tns:VerificarFirmaResponse" />
+</wsdl:message>
+
+<wsdl:message name="ConsultarSolicitudRequest">
+    <wsdl:part name="parameters" element="tns:ConsultarSolicitudRequest" />
+</wsdl:message>
+<wsdl:message name="ConsultarSolicitudResponse">
+    <wsdl:part name="parameters" element="tns:ConsultarSolicitudResponse" />
+</wsdl:message>
+
+<wsdl:message name="FirmarOTPRequest">
+    <wsdl:part name="parameters" element="tns:FirmarOTPRequest" />
+</wsdl:message>
+<wsdl:message name="FirmarOTPResponse">
+    <wsdl:part name="parameters" element="tns:FirmarOTPResponse" />
+</wsdl:message>
+
+<wsdl:message name="TiempoUsoOTPRequest">
+    <wsdl:part name="parameters" element="tns:TiempoUsoOTPRequest" />
+</wsdl:message>
+<wsdl:message name="TiempoUsoOTPResponse">
+    <wsdl:part name="parameters" element="tns:TiempoUsoOTPResponse" />
+</wsdl:message>
+
+<wsdl:message name="InvalidarOTPRequest">
+    <wsdl:part name="parameters" element="tns:InvalidarOTPRequest" />
+</wsdl:message>
+<wsdl:message name="InvalidarOTPResponse">
+    <wsdl:part name="parameters" element="tns:InvalidarOTPResponse" />
+</wsdl:message>
+
+<wsdl:message name="LoginRequest">
+    <wsdl:part name="parameters" element="tns:LoginRequest" />
+</wsdl:message>
+<wsdl:message name="LoginResponse">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+</wsdl:message>
+
+<wsdl:message name="DepartamentoRequest">
+    <wsdl:part name="parameters" element="tns:DepartamentoRequest" />
+</wsdl:message>
+<wsdl:message name="DepartamentoResponse">
+    <wsdl:part name="parameters" element="tns:DepartamentoResponse" />
+</wsdl:message>
+
+<wsdl:message name="MunicipioRequest">
+    <wsdl:part name="parameters" element="tns:MunicipioRequest" />
+</wsdl:message>
+<wsdl:message name="MunicipioResponse">
+    <wsdl:part name="parameters" element="tns:MunicipioResponse" />
+</wsdl:message>
+
+<wsdl:message name="ConsultarCertRequest">
+    <wsdl:part name="parameters" element="tns:ConsultarCertRequest" />
+</wsdl:message>
+<wsdl:message name="ConsultarCertResponse">
+    <wsdl:part name="parameters" element="tns:ConsultarCertResponse" />
+</wsdl:message>
+
+<wsdl:message name="RevocacionRequest">
+    <wsdl:part name="parameters" element="tns:RevocacionRequest" />
+</wsdl:message>
+<wsdl:message name="RevocacionResponse">
+    <wsdl:part name="parameters" element="tns:RevocacionResponse" />
+</wsdl:message>
+
+<wsdl:message name="CambiarPinRequest">
+    <wsdl:part name="parameters" element="tns:CambiarPinRequest" />
+</wsdl:message>
+<wsdl:message name="CambiarPinResponse">
+    <wsdl:part name="parameters" element="tns:CambiarPinResponse" />
+</wsdl:message>
+
+<wsdl:portType name="CertificadosPortType">
+    <wsdl:operation name="Certificados">
+        <wsdl:input message="tns:CertificadosRequest" />
+        <wsdl:output message="tns:CertificadosResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="CertificadosPersonaNaturalRUTPortType">
+    <wsdl:operation name="CertificadosPersonaNaturalRUT">
+        <wsdl:input message="tns:CertificadosPersonaNaturalRUTRequest" />
+        <wsdl:output message="tns:CertificadosPersonaNaturalRUTResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="CertificateVinculacionEmpresaPortType">
+    <wsdl:operation name="CertificateVinculacionEmpresa">
+        <wsdl:input message="tns:CertificateVinculacionEmpresaRequest" />
+        <wsdl:output message="tns:CertificateVinculacionEmpresaResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="FirmarPortType">
+    <wsdl:operation name="Firmar">
+        <wsdl:input message="tns:FirmarRequest" />
+        <wsdl:output message="tns:FirmarResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="VerificarFirmaPortType">
+    <wsdl:operation name="VerificarFirma">
+        <wsdl:input message="tns:VerificarFirmaRequest" />
+        <wsdl:output message="tns:VerificarFirmaResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="ConsultarSolicitudPortType">
+    <wsdl:operation name="ConsultarSolicitud">
+        <wsdl:input message="tns:ConsultarSolicitudRequest" />
+        <wsdl:output message="tns:ConsultarSolicitudResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="FirmarOTPPortType">
+    <wsdl:operation name="FirmarOTP">
+        <wsdl:input message="tns:FirmarOTPRequest" />
+        <wsdl:output message="tns:FirmarOTPResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="TiempoUsoOTPPortType">
+    <wsdl:operation name="TiempoUsoOTP">
+        <wsdl:input message="tns:TiempoUsoOTPRequest" />
+        <wsdl:output message="tns:TiempoUsoOTPResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="InvalidarOTPPortType">
+    <wsdl:operation name="InvalidarOTP">
+        <wsdl:input message="tns:InvalidarOTPRequest" />
+        <wsdl:output message="tns:InvalidarOTPResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="LoginPortType">
+    <wsdl:operation name="Login">
+        <wsdl:input message="tns:LoginRequest" />
+        <wsdl:output message="tns:LoginResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="DepartamentoPortType">
+    <wsdl:operation name="Departamento">
+        <wsdl:input message="tns:DepartamentoRequest" />
+        <wsdl:output message="tns:DepartamentoResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="MunicipioPortType">
+    <wsdl:operation name="Municipio">
+        <wsdl:input message="tns:MunicipioRequest" />
+        <wsdl:output message="tns:MunicipioResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="ConsultarCertPortType">
+    <wsdl:operation name="ConsultarCert">
+        <wsdl:input message="tns:ConsultarCertRequest" />
+        <wsdl:output message="tns:ConsultarCertResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="RevocacionPortType">
+    <wsdl:operation name="Revocacion">
+        <wsdl:input message="tns:RevocacionRequest" />
+        <wsdl:output message="tns:RevocacionResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:portType name="CambiarPinPortType">
+    <wsdl:operation name="CambiarPin">
+        <wsdl:input message="tns:CambiarPinRequest" />
+        <wsdl:output message="tns:CambiarPinResponse" />
+    </wsdl:operation>
+</wsdl:portType>
+
+<wsdl:binding name="CertificadosBinding" type="tns:CertificadosPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Certificados">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#Certificados" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation> Solicitar emisión de certificado custodiado de tipo Persona Natural PC Persona natural OID 1.3.6.1.4.1.31304.1.2.1.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="CertificadosPersonaNaturalRUTBinding" type="tns:CertificadosPersonaNaturalRUTPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CertificadosPersonaNaturalRUT">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#CertificadosPersonaNaturalRUT" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation> Solicitar emisión de certificado custodiado de tipo Persona Natural con RUT PC Persona natural OID 1.3.6.1.4.1.31304.1.2.1.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="CertificateVinculacionEmpresaBinding" type="tns:CertificateVinculacionEmpresaPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CertificateVinculacionEmpresa">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#CertificateVinculacionEmpresa" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation> Solicitar emisión de certificado custodiado de tipo Pertenencia a Empresa o Representante legal
+            PC Pertenencia a Empresa OID 1.3.6.1.4.1.31304.1.2.5.
+            PC Representante legal OID 1.3.6.1.4.1.31304.1.2.4</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="FirmarBinding" type="tns:FirmarPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Firmar">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#Firmar" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation> Solicitar firmar con certificado custodiado e incluir opcionalmente estampa cronológica.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="VerificarFirmaBinding" type="tns:VerificarFirmaPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="VerificarFirma">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#VerificarFirma" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation> Solicitar verificar firma realizada con certificados emitidos por Andes SCD.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="ConsultarSolicitudBinding" type="tns:ConsultarSolicitudPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConsultarSolicitud">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#ConsultarSolicitud" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Solicitar consultar para una solicitud en particular si se ha emitido el certificado.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="FirmarOTPBinding" type="tns:FirmarOTPPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FirmarOTP">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#FirmarOTP" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Solicitar firmar con certificado custodiado sumistrando OTP e incluir opcionalmente estampa cronológica.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="TiempoUsoOTPBinding" type="tns:TiempoUsoOTPPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TiempoUsoOTP">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#TiempoUsoOTP" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Definir el tiempo de uso en segundos de un OTP.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="InvalidarOTPBinding" type="tns:InvalidarOTPPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="InvalidarOTP">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#InvalidarOTP" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Invalidar un OTP cuyo tiempo no ha caducado.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="LoginBinding" type="tns:LoginPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#Login" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Permite verificar que la autenticación al webservice ha sido exitosa.</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="DepartamentoBinding" type="tns:DepartamentoPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Departamento">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#Departamento" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Listar Departamentos</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="MunicipioBinding" type="tns:MunicipioPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Municipio">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#Municipio" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Listar Municipios</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="ConsultarCertBinding" type="tns:ConsultarCertPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConsultarCert">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#ConsultarCert" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Permite obtener información del estado del ultimo certificado adquirido por un suscriptor</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="RevocacionBinding" type="tns:RevocacionPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Revocacion">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#Revocacion" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Revocar Certificado</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:binding name="CambiarPinBinding" type="tns:CambiarPinPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CambiarPin">
+        <soap:operation soapAction="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php#CambiarPin" style="document" />
+        <wsdl:input><soap:body use="literal" /></wsdl:input>
+        <wsdl:output><soap:body use="literal" /></wsdl:output>
+        <wsdl:documentation>Cambiar Pin</wsdl:documentation>
+    </wsdl:operation>
+</wsdl:binding>
+
+<wsdl:service name="WSandesscd">
+    <wsdl:port name="CertificadosPort" binding="tns:CertificadosBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="CertificadosPersonaNaturalRUTPort" binding="tns:CertificadosPersonaNaturalRUTBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="CertificateVinculacionEmpresaPort" binding="tns:CertificateVinculacionEmpresaBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="FirmarPort" binding="tns:FirmarBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="VerificarFirmaPort" binding="tns:VerificarFirmaBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="ConsultarSolicitudPort" binding="tns:ConsultarSolicitudBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="FirmarOTPPort" binding="tns:FirmarOTPBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="TiempoUsoOTPPort" binding="tns:TiempoUsoOTPBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="InvalidarOTPPort" binding="tns:InvalidarOTPBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="LoginPort" binding="tns:LoginBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="DepartamentoPort" binding="tns:DepartamentoBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="MunicipioPort" binding="tns:MunicipioBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="ConsultarCertPort" binding="tns:ConsultarCertBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="RevocacionPort" binding="tns:RevocacionBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+    <wsdl:port name="CambiarPinPort" binding="tns:CambiarPinBinding">
+        <soap:address location="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/soap-server_new.php" />
+    </wsdl:port>
+</wsdl:service>
+
+</wsdl:definitions>

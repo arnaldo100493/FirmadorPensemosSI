@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://desarrollo.avance.org.co/~angela.gomez/WebService_Cert/wsdl.php?WSDL" uri="wsdl/desarrollo.avance.org.co/_angela.gomez/WebService_Cert/wsdl.php.wsdl"/>
+    <system systemId="https://ra.andesscd.com.co/test/WebService/wsdl.php?WSDL" uri="wsdl/ra.andesscd.com.co/test/WebService/wsdl.php.wsdl"/>
+</catalog>
