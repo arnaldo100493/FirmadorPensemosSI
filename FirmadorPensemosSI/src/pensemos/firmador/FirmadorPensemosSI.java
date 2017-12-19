@@ -57,12 +57,12 @@ public class FirmadorPensemosSI {
         try {
             String message = "Puerto habilitado: 8448";
             textLog = new JTextArea(message, 5, 10);
-            //SSLContext sslContext = SSLContext.getInstance("TLS");
+            SSLContext sslContext = SSLContext.getInstance("TLS");
             loadCertificateKey();
-            //sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+            sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
             HttpsServer httpsserver = HttpsServer.create(new InetSocketAddress(8448), 0);
-            //httpsserver.setHttpsConfigurator(new HttpsConfigurator(sslContext));
-            /*
+            httpsserver.setHttpsConfigurator(new HttpsConfigurator(sslContext));
+            
 			httpsserver.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
                 public void configure(HttpsParameters params) {
                     try {
@@ -81,12 +81,17 @@ public class FirmadorPensemosSI {
                     }
                 }
             });
-             */
+             
             httpsserver.createContext("/test", new TestHandler());
             HttpContext context = httpsserver.createContext("/pki", new DoSign());
             context.getFilters().add(new ParameterFilter());
             httpsserver.start();
         } catch (NoSuchAlgorithmException | IOException ex) {
+            String message = textLog.getText();
+            message = message + "\nPkiAutenticacion " + ex.getMessage();
+            textLog.setText(message);
+            Logger.getLogger(FirmadorPensemosSI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (KeyManagementException ex) {
             String message = textLog.getText();
             message = message + "\nPkiAutenticacion " + ex.getMessage();
             textLog.setText(message);
