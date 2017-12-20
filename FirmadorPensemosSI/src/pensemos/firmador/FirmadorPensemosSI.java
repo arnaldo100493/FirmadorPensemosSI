@@ -108,8 +108,8 @@ public class FirmadorPensemosSI {
             UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
             JFrame frame = new JFrame("Firmador Pensemos Soluciones de Industria");
             frame.setLocationRelativeTo(null);
-            frame.setExtendedState(3);
-            frame.setDefaultCloseOperation(3);
+            frame.setExtendedState(JFrame.ICONIFIED);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(new Dimension(400, 300));
             frame.setIconImage(new ImageIcon(getClass().getResource("/pensemos/images/Logo.png")).getImage());
             ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/PensemosSI.png"));
