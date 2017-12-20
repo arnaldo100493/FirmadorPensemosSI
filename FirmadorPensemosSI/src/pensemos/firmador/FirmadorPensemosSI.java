@@ -2,8 +2,6 @@ package pensemos.firmador;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.security.KeyFactory;
 import java.security.KeyStore;
@@ -147,18 +144,6 @@ public class FirmadorPensemosSI {
     public static void setHeaders(Headers headers) {
         headers.set("Access-Control-Allow-Origin", "*");
         headers.set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-    }
-
-    static class HttpServerHandler implements HttpHandler {
-
-        @Override
-        public void handle(HttpExchange he) throws IOException {
-            byte[] response = "Bienvenido Real's HowTo test page".getBytes();
-            he.sendResponseHeaders(200, response.length);
-            OutputStream os = he.getResponseBody();
-            os.write(response);
-            os.close();
-        }
     }
 
 }
