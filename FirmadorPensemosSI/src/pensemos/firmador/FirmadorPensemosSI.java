@@ -72,8 +72,7 @@ public class FirmadorPensemosSI {
         System.out.println("Servidor iniciado");
     }
 
-    public void loadCertificateKey()
-            throws NoSuchAlgorithmException {
+    public void loadCertificateKey() throws NoSuchAlgorithmException {
         String stringcert = Resource.getCert();
         String key = Resource.getPrivKey();
         BASE64Decoder b64 = new BASE64Decoder();
