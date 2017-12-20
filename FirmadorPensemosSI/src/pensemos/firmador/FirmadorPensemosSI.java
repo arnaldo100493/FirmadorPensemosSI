@@ -2,9 +2,9 @@ package pensemos.firmador;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpsConfigurator;
-import com.sun.net.httpserver.HttpsParameters;
-import com.sun.net.httpserver.HttpsServer;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -13,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.security.KeyFactory;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -31,12 +31,8 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
-import javax.net.ssl.SSLParameters;
 import javax.net.ssl.TrustManagerFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -57,41 +53,15 @@ public class FirmadorPensemosSI {
         try {
             String message = "Puerto habilitado: 8448";
             textLog = new JTextArea(message, 5, 10);
-            SSLContext sslContext = SSLContext.getInstance("TLS");
             loadCertificateKey();
-            sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-            HttpsServer httpsserver = HttpsServer.create(new InetSocketAddress(8448), 0);
-            httpsserver.setHttpsConfigurator(new HttpsConfigurator(sslContext));
-            
-			httpsserver.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
-                public void configure(HttpsParameters params) {
-                    try {
-                        SSLContext c = SSLContext.getDefault();
-                        SSLEngine engine = c.createSSLEngine();
-                        params.setNeedClientAuth(false);
-                        params.setCipherSuites(engine.getEnabledCipherSuites());
-                        params.setProtocols(engine.getEnabledProtocols());
-                        SSLParameters defaultSSLParameters = c.getDefaultSSLParameters();
-                        params.setSSLParameters(defaultSSLParameters);
-                    } catch (Exception ex) {
-                        String message = FirmadorPensemosSI.textLog.getText();
-                        message = message + "\nhttps " + ex.getMessage();
-                        FirmadorPensemosSI.textLog.setText(message);
-                        System.out.println("Failed to create HTTPS server");
-                    }
-                }
-            });
-             
-            httpsserver.createContext("/test", new TestHandler());
-            HttpContext context = httpsserver.createContext("/pki", new DoSign());
+            HttpServer httpserver = HttpServer.create(new InetSocketAddress(8448), 0);
+            httpserver.setExecutor(null);
+
+            httpserver.createContext("/test", new TestHandler());
+            HttpContext context = httpserver.createContext("/pki", new DoSign());
             context.getFilters().add(new ParameterFilter());
-            httpsserver.start();
+            httpserver.start();
         } catch (NoSuchAlgorithmException | IOException ex) {
-            String message = textLog.getText();
-            message = message + "\nPkiAutenticacion " + ex.getMessage();
-            textLog.setText(message);
-            Logger.getLogger(FirmadorPensemosSI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (KeyManagementException ex) {
             String message = textLog.getText();
             message = message + "\nPkiAutenticacion " + ex.getMessage();
             textLog.setText(message);
@@ -178,4 +148,17 @@ public class FirmadorPensemosSI {
         headers.set("Access-Control-Allow-Origin", "*");
         headers.set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
     }
+
+    static class HttpServerHandler implements HttpHandler {
+
+        @Override
+        public void handle(HttpExchange he) throws IOException {
+            byte[] response = "Bienvenido Real's HowTo test page".getBytes();
+            he.sendResponseHeaders(200, response.length);
+            OutputStream os = he.getResponseBody();
+            os.write(response);
+            os.close();
+        }
+    }
+
 }
