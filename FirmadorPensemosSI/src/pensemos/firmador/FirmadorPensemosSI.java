@@ -102,13 +102,14 @@ public class FirmadorPensemosSI {
     public void createInterface() {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
-            JFrame frame = new JFrame("Firmador Pensemos Soluciones de Industria");
+            JFrame frame = new JFrame("Firmador Sicoq");
             frame.setLocationRelativeTo(null);
             frame.setExtendedState(JFrame.ICONIFIED);
+            frame.setSize(800,600); 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(new Dimension(400, 300));
-            frame.setIconImage(new ImageIcon(getClass().getResource("/pensemos/images/Logo.png")).getImage());
-            ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/PensemosSI.png"));
+            frame.setSize(new Dimension(400, 400));
+            frame.setIconImage(new ImageIcon(getClass().getResource("/pensemos/images/Sicoq.png")).getImage());
+            ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/Sicoq.png"));
             //String message = "<html><body>Agente Iniciado Version: 1.0.0 <br/>Recibiendo solicitudes en el puerto 8448 </body></html>";
             JLabel label = new JLabel(icon, 0);
             label.setVerticalTextPosition(3);
