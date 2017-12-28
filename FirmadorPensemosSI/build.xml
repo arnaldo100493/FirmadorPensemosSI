@@ -71,7 +71,7 @@
 
     -->
     <target name="-post-jar">
-        <property name="store.jar.name" value="FirmadorPensemosSI"/>
+        <property name="store.jar.name" value="FirmadorSicoq"/>
  
         <property name="store.dir" value="dist"/>
         <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>

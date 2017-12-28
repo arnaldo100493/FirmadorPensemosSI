@@ -107,8 +107,8 @@ public class FirmadorPensemosSI {
             frame.setExtendedState(JFrame.ICONIFIED);
             frame.setSize(800,600); 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(new Dimension(400, 400));
-            frame.setIconImage(new ImageIcon(getClass().getResource("/pensemos/images/Sicoq.png")).getImage());
+            frame.setSize(new Dimension(400, 300));
+            frame.setIconImage(new ImageIcon(getClass().getResource("/pensemos/images/LogoSicoq.png")).getImage());
             ImageIcon icon = new ImageIcon(getClass().getResource("/pensemos/images/Sicoq.png"));
             //String message = "<html><body>Agente Iniciado Version: 1.0.0 <br/>Recibiendo solicitudes en el puerto 8448 </body></html>";
             JLabel label = new JLabel(icon, 0);
