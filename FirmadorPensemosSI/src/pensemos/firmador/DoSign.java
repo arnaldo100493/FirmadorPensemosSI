@@ -103,6 +103,7 @@ public class DoSign
         X509Certificate x509 = null;
         BASE64Decoder decode = new BASE64Decoder();
         String hashdocumento = params.get("hashdocumento").toString();
+        int numeroIntentos = 5;
         try {
             byte[] dataToSign = decode.decodeBuffer(hashdocumento);
 
@@ -114,6 +115,16 @@ public class DoSign
             } else {
                 alias = params.get("alias").toString();
             }
+            
+            //Se recuperan los intentos enviados como parametro
+           String intentos = params.get("intentos").toString();
+            if(intentos == null || intentos.isEmpty() ){
+                numeroIntentos = 5;
+            }
+            else{
+                numeroIntentos = Integer.parseInt(params.get("intentos").toString());
+            }
+
             String password = params.get("password").toString();
             String firmaTSA = params.get("firmaTSA").toString();
             String tsa = params.get("tsa").toString();
@@ -125,7 +136,7 @@ public class DoSign
             ByteArrayInputStream bais = new ByteArrayInputStream(dataToSign);
             /**/
             FirmarPDF p1 = new FirmarPDF();
-            p1.firmarPDF(x509, priv, this.ks.getProvider(), bais, baos, tsa, firmaTSA);
+            p1.firmarPDF(x509, priv, this.ks.getProvider(), bais, baos, tsa, firmaTSA, numeroIntentos);
 
             // miCms.firmar(k,alias,"",baos);
             //String resultado2 = CMS.firmar(hashdocumento, alias, "");
@@ -150,8 +161,17 @@ public class DoSign
             errorMsg = "7" + ex.getMessage();
             Logger.getLogger(DoSign.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownError ex) {
+            resultado = false;
+            errorMsg = "8" + ex.getMessage();            
             Logger.getLogger(DoSign.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
+            resultado = false;
+            
+            if (ex.getMessage() == null){
+                errorMsg = "9 Error no identificado";  
+            }else{
+                errorMsg = "9 " + ex.getMessage();      
+            }
             Logger.getLogger(DoSign.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;

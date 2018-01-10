@@ -95,5 +95,6 @@
         <delete file="${store.dir}/temp_final.jar"/>
         <delete dir="${store.dir}/lib"/>
         <delete file="${store.dir}/README.TXT"/>
+        <delete file="${store.dir}/FirmadorPensemosSI.jar"/>
     </target>
 </project>

@@ -9,7 +9,7 @@ import java.security.cert.X509Certificate;
 
 public class FirmarPDF {
 
-    public void firmarPDF(X509Certificate x509, PrivateKey privKey, Provider provider, InputStream entrada, ByteArrayOutputStream salida, String firmaTSA, String datosTSA)
+    public void firmarPDF(X509Certificate x509, PrivateKey privKey, Provider provider, InputStream entrada, ByteArrayOutputStream salida, String firmaTSA, String datosTSA, int intentos)
             throws UnknownError, Exception {
         //CMS.iniciarComponente();
         CMS cms = new CMS(entrada);
@@ -25,7 +25,27 @@ public class FirmarPDF {
             //CMS.setFuenteHorariaTSA(tsa[0], tsa[1], tsa[2]);
             CMS.setFuenteHorariaSNTP(tsa[0]);
         }
-        cms.firmar(x509, privKey, provider, salida);
-
+        
+        //Inicia ciclo para intentar firmar
+        do
+            try
+            {
+                intentos--;                               
+                cms.firmar(x509, privKey, provider, salida); 
+                return;
+            }
+            catch(Exception e)
+            {
+                String error = e.getMessage();
+                System.out.println(e.getMessage());
+                System.out.println("Intentando firmar nuevamente");
+                if(intentos <= 0)
+                {
+                    System.out.println("Error :" + error);
+                    throw new Exception(error);
+                }
+            }
+        while(true);
+               
     }
 }
